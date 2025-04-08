@@ -19,7 +19,17 @@ class RFReceiver:
                     rx_code_list = [int(x) for x in str(code)]
                     protocol_list = [int(x) for x in str(protocol)]
                     pulse_length_list = [int(x) for x in str(pulse_length)]
-                    time.sleep(0.01)
-        except KeyboardInterrupt:
+                    time.sleep(0.01) 
+        except KeyboardInterrupt:     
             rfdevice.cleanup()
             return rx_code_list, protocol_list, pulse_length_list
+
+class RFTransmitter:
+    @staticmethod
+    def transmit(pin, code, protocol, pulselength, repeat=10):
+        rfdevice = RFDevice(pin)
+        rfdevice.enable_tx()
+        rfdevice.tx_repeat = repeat
+        rfdevice.tx_code(code, protocol, pulselength)
+        rfdevice.cleanup()
+
